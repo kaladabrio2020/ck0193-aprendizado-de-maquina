@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Algoritmos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="parte5-lista-2-classificacao_files/libs/clipboard/clipboard.min.js"></script>
+<script src="parte5-lista-2-classificacao_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="parte5-lista-2-classificacao_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="parte5-lista-2-classificacao_files/libs/quarto-html/popper.min.js"></script>
+<script src="parte5-lista-2-classificacao_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="parte5-lista-2-classificacao_files/libs/quarto-html/anchor.min.js"></script>
+<link href="parte5-lista-2-classificacao_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="parte5-lista-2-classificacao_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="parte5-lista-2-classificacao_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="parte5-lista-2-classificacao_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="parte5-lista-2-classificacao_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Algoritmos</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="cc7bd456" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyprind.progbar <span class="im">import</span> ProgBar</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="02123803" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> regressao_logistica:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, X, y, tipo<span class="op">=</span><span class="st">'gradiente'</span>, epochs<span class="op">=</span><span class="dv">1_00</span>, learning_rate<span class="op">=</span><span class="fl">0.01</span>, salvar_processo<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Adicionando a coluna interceptor</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.X_ <span class="op">=</span> np.c_[ np.ones(shape<span class="op">=</span>(X.shape[<span class="dv">0</span>], <span class="dv">1</span>), dtype<span class="op">=</span>np.float32), X]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Tipo de alg usado</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tipo   <span class="op">=</span> tipo</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Caso seja de multiclasse muda a estrategia</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.multiclasse <span class="op">=</span> <span class="va">True</span> <span class="cf">if</span> <span class="bu">len</span>(np.unique(y))<span class="op">&gt;</span><span class="dv">2</span> <span class="cf">else</span> <span class="va">False</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.epochs <span class="op">=</span> epochs</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.learning_rate <span class="op">=</span> learning_rate</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.salvar_processo <span class="op">=</span> salvar_processo</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.multiclasse:</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.classes <span class="op">=</span> np.unique(y)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.coeficientes <span class="op">=</span> np.random.rand( <span class="bu">len</span>(<span class="va">self</span>.classes), <span class="va">self</span>.X_.shape[<span class="dv">1</span>])</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.coeficientes  <span class="op">=</span> np.random.rand(<span class="dv">1</span>, <span class="va">self</span>.X_.shape[<span class="dv">1</span>])</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fazendo reshape na target caso necessario</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.y  <span class="op">=</span> y.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="cf">if</span> <span class="bu">len</span>(y.shape) <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> y</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">#Se for multiclasse é feito o one hot encoding</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.multiclasse <span class="kw">and</span> <span class="va">self</span>.y.shape[<span class="dv">1</span>] <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            onehot <span class="op">=</span> np.zeros((<span class="va">self</span>.X_.shape[<span class="dv">0</span>], <span class="bu">len</span>(<span class="va">self</span>.classes)))</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.classes):</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                onehot[:, i] <span class="op">=</span> (<span class="va">self</span>.y.ravel() <span class="op">==</span> c).astype(<span class="bu">float</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.y <span class="op">=</span> onehot</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ajuste(<span class="va">self</span>):</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">match</span> <span class="va">self</span>.tipo:</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="st">'gradiente'</span>: </span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.gradiente()</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> _: </span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.gradiente()</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> gradiente(<span class="va">self</span>):</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        progbar <span class="op">=</span> ProgBar(<span class="va">self</span>.epochs, title<span class="op">=</span><span class="st">'Treinando modelo - gradiente'</span>, stream<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.processo <span class="op">=</span> []</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        M <span class="op">=</span> <span class="va">self</span>.X_.shape[<span class="dv">0</span>]</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.epochs):</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Faz a predição com base se é multiclasses ou não</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>            pred <span class="op">=</span> <span class="va">self</span>.predicao_ajuste(<span class="va">self</span>.X_)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Caso seja multiclasse usará a função softmax caso contrario a sigmoid</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>            pred <span class="op">=</span> <span class="va">self</span>.sigmoid(pred) <span class="cf">if</span> <span class="kw">not</span>(<span class="va">self</span>.multiclasse) <span class="cf">else</span> <span class="va">self</span>.softmax(pred)  </span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>            grad <span class="op">=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> ((<span class="dv">1</span><span class="op">/</span>M) <span class="op">*</span> (<span class="va">self</span>.y <span class="op">-</span> pred).T.dot(<span class="va">self</span>.X_))</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.coeficientes <span class="op">-=</span> grad</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>            perda <span class="op">=</span> <span class="va">self</span>.cross_entropy(pred)</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>            progbar.update(<span class="dv">1</span>, item_id<span class="op">=</span><span class="ss">f'Epoch </span><span class="sc">{</span>epoch<span class="sc">}</span><span class="ss"> - perda </span><span class="sc">{</span>perda<span class="sc">:.4f}</span><span class="ss">'</span>)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="va">self</span>.salvar_processo: </span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.processo.append( perda )</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> cross_entropy(<span class="va">self</span>, pred):</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">*</span>np.mean(</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.y <span class="op">*</span> np.log1p(pred) <span class="op">+</span> ( <span class="dv">1</span> <span class="op">-</span> <span class="va">self</span>.y ) <span class="op">*</span> np.log1p(<span class="dv">1</span> <span class="op">-</span>  pred)</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Função sigmoid</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> sigmoid(<span class="va">self</span>, x):</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>x))</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Função sofmax para multiclasses</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> softmax(<span class="va">self</span>, x):</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        exp_x <span class="op">=</span> np.exp(x <span class="op">-</span> np.<span class="bu">max</span>(x, axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> exp_x <span class="op">/</span> np.<span class="bu">sum</span>(exp_x, axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predicao_ajuste(<span class="va">self</span>, x):</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.dot(x, <span class="va">self</span>.coeficientes.T)</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predicao(<span class="va">self</span>, x):</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>        M <span class="op">=</span> x.shape[<span class="dv">0</span>]</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>        x_ <span class="op">=</span> np.c_[ np.ones(shape<span class="op">=</span>(M, <span class="dv">1</span>), dtype<span class="op">=</span>np.float32), x]</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.multiclasse:</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> np.argmax(<span class="va">self</span>.softmax(np.dot(x_,<span class="va">self</span>.coeficientes.T)), axis<span class="op">=</span><span class="dv">1</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.sigmoid(np.dot(x_,<span class="va">self</span>.coeficientes.T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>Gassian</code></p>
+<div id="bc788782" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Gaussian:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, X, y):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.X <span class="op">=</span> X</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.y <span class="op">=</span> y</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.classes <span class="op">=</span> np.unique(y)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Quantidade de classes, instancias e colunas sucessivamente</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.S <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.classes)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.N <span class="op">=</span> <span class="va">self</span>.X.shape[<span class="dv">0</span>]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.M <span class="op">=</span> <span class="va">self</span>.X.shape[<span class="dv">1</span>]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ajuste(<span class="va">self</span>):</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Cria uma array para guardar objetos [omega e pi]</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.omega_pi <span class="op">=</span> np.empty((<span class="va">self</span>.S, <span class="va">self</span>.S), dtype<span class="op">=</span><span class="bu">object</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sigma <span class="op">=</span> np.zeros((<span class="va">self</span>.M, <span class="va">self</span>.M))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.S):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Seleciona o array contendo uma respetiva classe</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            sub_x <span class="op">=</span> <span class="va">self</span>.X[np.hstack(<span class="va">self</span>.y <span class="op">==</span> c), :] </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calcula omega e pi</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.omega_pi[c, <span class="dv">0</span>] <span class="op">=</span> <span class="bu">len</span>(sub_x)<span class="op">/</span><span class="va">self</span>.N</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.omega_pi[c, <span class="dv">1</span>] <span class="op">=</span> np.mean(sub_x, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>            sub_x <span class="op">=</span> <span class="va">self</span>.X[np.hstack(<span class="va">self</span>.y <span class="op">==</span> c), :]</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.sigma <span class="op">+=</span> (sub_x <span class="op">-</span> <span class="va">self</span>.omega_pi[c, <span class="dv">1</span>]).T.dot( (sub_x <span class="op">-</span> <span class="va">self</span>.omega_pi[c, <span class="dv">1</span>]) )</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sigma <span class="op">=</span> <span class="va">self</span>.sigma<span class="op">/</span><span class="va">self</span>.N </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sigma_inv <span class="op">=</span> np.linalg.inv(<span class="va">self</span>.sigma)  </span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predicao(<span class="va">self</span>, x):      </span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        deltas <span class="op">=</span> []</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.S):</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>            pi_c <span class="op">=</span> <span class="va">self</span>.omega_pi[c, <span class="dv">0</span>]</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>            om_c <span class="op">=</span> <span class="va">self</span>.omega_pi[c, <span class="dv">1</span>]</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>            parte_1 <span class="op">=</span> x <span class="op">@</span> <span class="va">self</span>.sigma_inv <span class="op">@</span> om_c </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>            parte_2 <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> om_c.T <span class="op">@</span> <span class="va">self</span>.sigma_inv <span class="op">@</span> om_c <span class="op">+</span> np.log(pi_c)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>            delta <span class="op">=</span> parte_1 <span class="op">-</span> parte_2</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>            deltas.append(delta)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        deltas <span class="op">=</span> np.array(deltas) </span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> np.array(<span class="va">self</span>.classes[np.argmax(deltas, axis<span class="op">=</span><span class="dv">0</span>)])</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pred.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>Naive bayes</code></p>
+<div id="45357a41" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NaiveBayesGaussiano:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, X, y):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.X <span class="op">=</span> X</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.y <span class="op">=</span> y</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.classes <span class="op">=</span> np.unique(y)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Quantidade de classes, instancias e colunas sucessivamente</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.S <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.classes)  </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.N <span class="op">=</span> <span class="va">self</span>.X.shape[<span class="dv">0</span>]    </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.M <span class="op">=</span> <span class="va">self</span>.X.shape[<span class="dv">1</span>]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ajuste(<span class="va">self</span>):</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Cria uma array para guardar objetos [omega e pi]</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.omega_pi <span class="op">=</span> np.empty((<span class="va">self</span>.S, <span class="dv">2</span>), dtype<span class="op">=</span><span class="bu">object</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sigma_diag <span class="op">=</span> np.zeros((<span class="va">self</span>.S, <span class="va">self</span>.M))</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.S):</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Seleciona o array contendo uma respetiva classe</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            sub_x <span class="op">=</span> <span class="va">self</span>.X[np.hstack(<span class="va">self</span>.y <span class="op">==</span> <span class="va">self</span>.classes[c]), :]</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            N_k <span class="op">=</span> <span class="bu">len</span>(sub_x)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            <span class="co"># PI = N_k / N</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.omega_pi[c, <span class="dv">0</span>] <span class="op">=</span> N_k <span class="op">/</span> <span class="va">self</span>.N</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>            <span class="co"># omega_dk = MEAN(x_id)</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.omega_pi[c, <span class="dv">1</span>] <span class="op">=</span> np.mean(sub_x, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Variância diagonal</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.sigma_diag[c, :] <span class="op">=</span> np.var(sub_x, axis<span class="op">=</span><span class="dv">0</span>, ddof<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predicao(<span class="va">self</span>, x):</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        deltas <span class="op">=</span> []</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.S):</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>            pi_c <span class="op">=</span> <span class="va">self</span>.omega_pi[c, <span class="dv">0</span>]  </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>            om_c <span class="op">=</span> <span class="va">self</span>.omega_pi[c, <span class="dv">1</span>]  </span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>            var_c <span class="op">=</span> <span class="va">self</span>.sigma_diag[c, :] </span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>            <span class="co"># parte 1</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>            parte_1 <span class="op">=</span> np.<span class="bu">sum</span>(x <span class="op">*</span> om_c <span class="op">/</span> var_c, axis<span class="op">=</span><span class="dv">1</span>) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> np.<span class="bu">sum</span>(om_c<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> var_c)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>            <span class="co"># parte 2</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>            parte_2 <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.<span class="bu">sum</span>(np.log(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> var_c)) <span class="op">-</span> np.log(pi_c)</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>            deltas.append(parte_1 <span class="op">-</span> parte_2)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        deltas <span class="op">=</span> np.array(deltas)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span>  np.array(<span class="va">self</span>.classes[np.argmax(deltas, axis<span class="op">=</span><span class="dv">0</span>)])</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pred.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>Metricas</code></p>
+<p>As funções calcula a acuracia global e por classe</p>
+<div id="40e69ffc" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> acuracia(ytrue, ypred):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.divide((ytrue <span class="op">==</span> ypred).astype(<span class="bu">int</span>).<span class="bu">sum</span>(), ytrue.shape[<span class="dv">0</span>])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> acuracia_por_classe(ytrue, ypred):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    dicionario <span class="op">=</span> { <span class="st">'classes'</span>:[],  <span class="st">'total'</span>:[], <span class="st">'acertos'</span>:[], <span class="st">'acuracia'</span>:[] }</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> np.unique(ytrue, <span class="bu">sorted</span><span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        acertos <span class="op">=</span> np.<span class="bu">sum</span>((ytrue <span class="op">==</span> i) <span class="op">&amp;</span> (ypred <span class="op">==</span> i))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        total   <span class="op">=</span> np.<span class="bu">sum</span>(ytrue <span class="op">==</span> i)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        acuracia_i <span class="op">=</span> <span class="bu">round</span>(acertos <span class="op">/</span> total, <span class="dv">5</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        dicionario[<span class="st">'classes'</span>].append(<span class="ss">f'rotulo </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        dicionario[<span class="st">'total'</span>].append(total)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        dicionario[<span class="st">'acertos'</span>].append(acertos)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        dicionario[<span class="st">'acuracia'</span>].append(acuracia_i)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> pd.DataFrame(dicionario)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result.set_index(<span class="st">'classes'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Função abaixo dividi dados de treino e teste</p>
+<div id="22464e10" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_test(X, y, test_size <span class="op">=</span> <span class="fl">0.2</span>, seed<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    rnd <span class="op">=</span> np.random.RandomState(seed)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    index <span class="op">=</span> np.arange(X.shape[<span class="dv">0</span>])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    rnd.shuffle(index)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    test_index <span class="op">=</span> index[:<span class="bu">int</span>(X.shape[<span class="dv">0</span>] <span class="op">*</span> test_size)]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    train_index <span class="op">=</span> index[<span class="bu">int</span>(X.shape[<span class="dv">0</span>] <span class="op">*</span> test_size):]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    xtest <span class="op">=</span> X[test_index]</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    ytest <span class="op">=</span> y[test_index]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    xtrain <span class="op">=</span> X[train_index]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    ytrain <span class="op">=</span> y[train_index]</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xtrain, ytrain, xtest, ytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Verficia a media e desvio padrão da acucaria por classe</p>
+<div id="6d0cc3d2" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> trat_dfs_acu_por_classe(result):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    dfs <span class="op">=</span> [df <span class="cf">for</span> sublist <span class="kw">in</span> result <span class="cf">for</span> df <span class="kw">in</span> sublist]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, df <span class="kw">in</span> <span class="bu">enumerate</span>(dfs):</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'fold'</span>] <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    df_geral <span class="op">=</span> pd.concat(dfs).reset_index()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df_geral.groupby(<span class="st">'classes'</span>)[[<span class="st">'total'</span>,<span class="st">'acertos'</span>,<span class="st">'acuracia'</span>]].agg([<span class="st">'mean'</span>, <span class="st">'std'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>&nbsp;</p>
+<hr>
+<section id="questão-1" class="level1">
+<h1>Questão 1</h1>
+<div id="b87a603f" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Considere o conjunto de dados disponível em breastcancer.csv, organizado em 31 colunas, sendo as 30 primeiras colunas os atributos e a última coluna a saída. Os 30 atributos coletados de exames médicos são usados no diagnóstico do câncer de mama, sendo 1 a classe positiva e 0 a classe negativa. Maiores detalhes sobre os dados podem ser conferidos em https://scikit-learn.org/stable/datasets/toy_dataset.html#breast-cancer-dataset.</p>
+<div id="331a94f5" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lendo arquivo</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>breast <span class="op">=</span> np.loadtxt(fname<span class="op">=</span><span class="st">'dataset</span><span class="ch">\\</span><span class="st">breastcancer.csv'</span>, delimiter<span class="op">=</span><span class="st">','</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>breast.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(569, 31)</code></pre>
+</div>
+</div>
+<div id="651621be" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> breast[:, :<span class="dv">30</span>].astype(np.float32)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>X_scalery <span class="op">=</span> breast[:, <span class="op">-</span><span class="dv">1</span>].astype(np.float32).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cb868d1f" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> breast[:, <span class="dv">30</span>:].astype(np.float32)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="11bf91b7" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>X_scaler <span class="op">=</span> scaler.fit_transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="1879b357" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>xtrain, ytrain, xtest, ytest <span class="op">=</span> train_test(X_scaler, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="abd7d901" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ytrain.shape, xtrain.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>((456, 1), (456, 30))</code></pre>
+</div>
+</div>
+<section id="a.-considerando-uma-validação-cruzada-em-10-folds-avalie-modelos-de-classificação-binária-nos-dados-em-questão.-para-tanto-use-as-abordagens-abaixo" class="level2">
+<h2 class="anchored" data-anchor-id="a.-considerando-uma-validação-cruzada-em-10-folds-avalie-modelos-de-classificação-binária-nos-dados-em-questão.-para-tanto-use-as-abordagens-abaixo">a. Considerando uma validação cruzada em 10 folds, avalie modelos de classificação binária nos dados em questão. Para tanto, use as abordagens abaixo:</h2>
+<div id="81e6f331" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> folds(X, y, modelo, test_size<span class="op">=</span><span class="fl">0.25</span>, k<span class="op">=</span><span class="dv">10</span>, metrics<span class="op">=</span>[], metrics_df<span class="op">=</span>[]):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    metrics_list <span class="op">=</span> []</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    metrics_list_df <span class="op">=</span> []</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k):</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        xtrain_fold, ytrain_fold, xtest_fold, ytest_fold <span class="op">=</span> train_test(X, y, test_size, seed<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> modelo(xtrain_fold, ytrain_fold)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        model.ajuste()</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> model.predicao(xtest_fold)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> (pred <span class="op">&gt;=</span> <span class="fl">0.5</span>).astype(<span class="bu">int</span>) <span class="cf">if</span> <span class="kw">not</span>(np.<span class="bu">any</span>(pred.astype(<span class="bu">int</span>)<span class="op">==</span><span class="dv">1</span>)) <span class="cf">else</span> pred</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        metrics_list.append([i(ytest_fold, pred) <span class="cf">for</span> i <span class="kw">in</span> metrics])</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        metrics_list_df.append([i(ytest_fold, pred) <span class="cf">for</span> i <span class="kw">in</span> metrics_df])</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> metrics_list, metrics_list_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>Logistica GD</code></p>
+<div id="0755ef57" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>result_log, result_log_df <span class="op">=</span> folds(xtrain, ytrain, regressao_logistica, metrics<span class="op">=</span>[acuracia], metrics_df<span class="op">=</span>[acuracia_por_classe])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.6111
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.5944
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.6032
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.6000
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.6182
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.6034
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.6211
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.5305
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.5974
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.6105
+Total time elapsed: 00:00:00</code></pre>
+</div>
+</div>
+<p><code>gaussiano</code></p>
+<div id="46032456" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>result_adg, result_adg_df  <span class="op">=</span> folds(xtrain, ytrain, Gaussian, metrics<span class="op">=</span>[acuracia], metrics_df<span class="op">=</span>[acuracia_por_classe])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>Naive bayes</code></p>
+<div id="0a5ae55d" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>result_naive,  result_naive_df <span class="op">=</span> folds(xtrain, ytrain, NaiveBayesGaussiano, metrics<span class="op">=</span>[acuracia], metrics_df<span class="op">=</span>[acuracia_por_classe])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="b-para-cada-modelo-criado-reporte-valor-médio-e-desvio-padrão-da-acurácia-global-e-da-acurácia-por-classe." class="level2">
+<h2 class="anchored" data-anchor-id="b-para-cada-modelo-criado-reporte-valor-médio-e-desvio-padrão-da-acurácia-global-e-da-acurácia-por-classe.">b) Para cada modelo criado, reporte valor médio e desvio padrão da acurácia global e da acurácia por classe.</h2>
+<section id="acuracia" class="level3">
+<h3 class="anchored" data-anchor-id="acuracia">Acuracia</h3>
+<div id="0bfc2259" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>plt.plot(result_log, label<span class="op">=</span><span class="st">'Logistica'</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>plt.plot(result_adg, label<span class="op">=</span><span class="st">'Análise do discriminante Gaussiano'</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>plt.plot(result_naive, label<span class="op">=</span><span class="st">'Naive Bayes'</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="parte5-lista-2-classificacao_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="60bf15cd" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Logistica'</span>:[ np.mean(result_log),np.std(result_log)],</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Análise do discriminante Gaussiano'</span>:[ np.mean(result_adg),  np.std(result_adg)],</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Naive Bayes'</span>:[np.mean(result_naive), np.std(result_naive)],</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>[<span class="st">'Média'</span>, <span class="st">'Desvio Padrão'</span>])</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Logistica</th>
+<th data-quarto-table-cell-role="th">Análise do discriminante Gaussiano</th>
+<th data-quarto-table-cell-role="th">Naive Bayes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Média</td>
+<td>0.535965</td>
+<td>0.952632</td>
+<td>0.928070</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Desvio Padrão</td>
+<td>0.431102</td>
+<td>0.014253</td>
+<td>0.020684</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="92094da9" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>results_melt <span class="op">=</span> results.reset_index().melt(id_vars<span class="op">=</span><span class="st">'index'</span>, var_name<span class="op">=</span><span class="st">'Modelo'</span>, value_name<span class="op">=</span><span class="st">'Valor'</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.barplot(data<span class="op">=</span>results_melt, x<span class="op">=</span><span class="st">'Modelo'</span>, y<span class="op">=</span><span class="st">'Valor'</span>, hue<span class="op">=</span><span class="st">'index'</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ax.patches:</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    valor <span class="op">=</span> p.get_height()</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    ax.text(</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        p.get_x() <span class="op">+</span> p.get_width()<span class="op">/</span><span class="dv">2</span>, valor <span class="op">+</span> <span class="fl">0.002</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f'</span><span class="sc">{</span>valor<span class="sc">:.3f}</span><span class="ss">'</span>,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'bottom'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="parte5-lista-2-classificacao_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="acuracia-por-classe" class="level3">
+<h3 class="anchored" data-anchor-id="acuracia-por-classe">Acuracia por classe</h3>
+<div id="0dfb9d6d" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>trat_dfs_acu_por_classe(result_log_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">total</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acertos</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acuracia</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">classes</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">rotulo 0.0</td>
+<td>71.0</td>
+<td>3.399346</td>
+<td>37.5</td>
+<td>32.585784</td>
+<td>0.525027</td>
+<td>0.453601</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rotulo 1.0</td>
+<td>43.0</td>
+<td>3.399346</td>
+<td>23.6</td>
+<td>19.693202</td>
+<td>0.552434</td>
+<td>0.457094</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="a0027eda" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>trat_dfs_acu_por_classe(result_adg_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">total</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acertos</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acuracia</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">classes</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">rotulo 0.0</td>
+<td>67.7</td>
+<td>4.762119</td>
+<td>66.9</td>
+<td>4.458450</td>
+<td>0.988454</td>
+<td>0.009106</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rotulo 1.0</td>
+<td>46.3</td>
+<td>4.762119</td>
+<td>41.7</td>
+<td>3.713339</td>
+<td>0.902415</td>
+<td>0.030961</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cf95dae0" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>trat_dfs_acu_por_classe(result_naive_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">total</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acertos</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acuracia</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">classes</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">rotulo 0.0</td>
+<td>70.6</td>
+<td>3.777124</td>
+<td>68.8</td>
+<td>4.366539</td>
+<td>0.974250</td>
+<td>0.022830</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rotulo 1.0</td>
+<td>43.4</td>
+<td>3.777124</td>
+<td>37.0</td>
+<td>2.867442</td>
+<td>0.853711</td>
+<td>0.034406</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="questão-2" class="level1">
+<h1>Questão 2</h1>
+<p>Considere o conjunto de dados disponível em vehicle.csv, organizado em 19 colunas, sendo as 18 primeiras colunas os atributos e a última coluna a saída. Os 18 atributos caracterizam a silhueta de veículos, extraídos pelo método HIPS (Hierarchical Image Processing System). A tarefa consiste em classificar o veículo em 4 classes (bus, opel, saab, e van). Maiores detalhes sobre os dados podem ser conferidos em https://www.openml.org/search?type=data&amp;sort=runs&amp;id=54.</p>
+<div id="ae1dc2f1" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>veiculos <span class="op">=</span> np.loadtxt(fname<span class="op">=</span><span class="st">'dataset</span><span class="ch">\\</span><span class="st">vehicle.csv'</span>, delimiter<span class="op">=</span><span class="st">','</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="58e73fd4" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> veiculos[:, :<span class="dv">18</span>].astype(np.float32)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> veiculos[:, <span class="dv">18</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="6a52da0c" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>X_scaler <span class="op">=</span> scaler.fit_transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="4709427a" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>xtrain, ytrain, xtest, ytest <span class="op">=</span> train_test(X_scaler, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="considerando-uma-validação-cruzada-em-10-folds-avalie-modelos-de-classificação-multiclasse-nos-dados-em-questão.-para-tanto-use-as-abordagens-abaixo" class="level2">
+<h2 class="anchored" data-anchor-id="considerando-uma-validação-cruzada-em-10-folds-avalie-modelos-de-classificação-multiclasse-nos-dados-em-questão.-para-tanto-use-as-abordagens-abaixo">1. Considerando uma validação cruzada em 10 folds, avalie modelos de classificação multiclasse nos dados em questão. Para tanto, use as abordagens abaixo:</h2>
+<ul>
+<li>Regressão softmax (treinado com GD ou SGD);</li>
+<li>Análise do discriminante Gaussiano;</li>
+<li>Naive Bayes Gaussiano;</li>
+</ul>
+<p><code>SGD</code></p>
+<div id="49a17fbd" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>result_log, result_log_df  <span class="op">=</span> folds(xtrain, ytrain, regressao_logistica, metrics<span class="op">=</span>[acuracia], metrics_df<span class="op">=</span>[acuracia_por_classe])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4439
+Total time elapsed: 00:00:01
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4347
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4022
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4191
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4263
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4220
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4712
+Total time elapsed: 00:00:01
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4816
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4649
+Total time elapsed: 00:00:00
+Treinando modelo - gradiente
+0% [##############################] 100% | ETA: 00:00:00 | Item ID: Epoch 99 - perda -0.4080
+Total time elapsed: 00:00:00</code></pre>
+</div>
+</div>
+<p><code>gaussian</code></p>
+<div id="7beeef35" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>result_adg, result_adg_df  <span class="op">=</span> folds(xtrain, ytrain, Gaussian, metrics<span class="op">=</span>[acuracia], metrics_df<span class="op">=</span>[acuracia_por_classe])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>naive bayes</code></p>
+<div id="5d7b881d" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>result_naive,  result_naive_df <span class="op">=</span> folds(xtrain, ytrain, NaiveBayesGaussiano, metrics<span class="op">=</span>[acuracia], metrics_df<span class="op">=</span>[acuracia_por_classe])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="para-cada-modelo-criado-reporte-valor-médio-e-desvio-padrão-da-acurácia-global-e-da-acurácia-por-classe." class="level2">
+<h2 class="anchored" data-anchor-id="para-cada-modelo-criado-reporte-valor-médio-e-desvio-padrão-da-acurácia-global-e-da-acurácia-por-classe.">2. Para cada modelo criado, reporte valor médio e desvio padrão da acurácia global e da acurácia por classe.</h2>
+<p><code>Acuracia</code></p>
+<div id="02ed4d8a" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Multiclasse'</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>plt.plot(result_log, label<span class="op">=</span><span class="st">'Logistica'</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>plt.plot(result_adg, label<span class="op">=</span><span class="st">'Análise do discriminante Gaussiano'</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>plt.plot(result_naive, label<span class="op">=</span><span class="st">'Naive Bayes'</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="parte5-lista-2-classificacao_files/figure-html/cell-33-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="fd763e37" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Logistica'</span>:[ np.mean(result_log),np.std(result_log)],</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Análise do discriminante Gaussiano'</span>:[ np.mean(result_adg),  np.std(result_adg)],</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Naive Bayes'</span>:[np.mean(result_naive), np.std(result_naive)],</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>[<span class="st">'Média'</span>, <span class="st">'Desvio Padrão'</span>])</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Logistica</th>
+<th data-quarto-table-cell-role="th">Análise do discriminante Gaussiano</th>
+<th data-quarto-table-cell-role="th">Naive Bayes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Média</td>
+<td>0.228994</td>
+<td>0.776331</td>
+<td>0.383432</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Desvio Padrão</td>
+<td>0.077198</td>
+<td>0.037123</td>
+<td>0.033971</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="363023bf" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>results_melt <span class="op">=</span> results.reset_index().melt(id_vars<span class="op">=</span><span class="st">'index'</span>, var_name<span class="op">=</span><span class="st">'Modelo'</span>, value_name<span class="op">=</span><span class="st">'Valor'</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.barplot(data<span class="op">=</span>results_melt, x<span class="op">=</span><span class="st">'Modelo'</span>, y<span class="op">=</span><span class="st">'Valor'</span>, hue<span class="op">=</span><span class="st">'index'</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ax.patches:</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    valor <span class="op">=</span> p.get_height()</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    ax.text(</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>        p.get_x() <span class="op">+</span> p.get_width()<span class="op">/</span><span class="dv">2</span>, valor <span class="op">+</span> <span class="fl">0.002</span>,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f'</span><span class="sc">{</span>valor<span class="sc">:.3f}</span><span class="ss">'</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>        ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'bottom'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="parte5-lista-2-classificacao_files/figure-html/cell-35-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>Acuracia por classe</code></p>
+<div id="e0b16a3b" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>trat_dfs_acu_por_classe(result_log_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">total</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acertos</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acuracia</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">classes</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">rotulo 0.0</td>
+<td>46.3</td>
+<td>5.186521</td>
+<td>9.5</td>
+<td>8.343327</td>
+<td>0.218970</td>
+<td>0.199313</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rotulo 1.0</td>
+<td>39.4</td>
+<td>6.719788</td>
+<td>12.7</td>
+<td>12.918978</td>
+<td>0.305404</td>
+<td>0.286314</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">rotulo 2.0</td>
+<td>46.0</td>
+<td>3.496029</td>
+<td>9.5</td>
+<td>8.618456</td>
+<td>0.210231</td>
+<td>0.195603</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rotulo 3.0</td>
+<td>37.3</td>
+<td>6.000926</td>
+<td>7.0</td>
+<td>10.349450</td>
+<td>0.185340</td>
+<td>0.290314</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="f7d62317" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>trat_dfs_acu_por_classe(result_adg_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">total</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acertos</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acuracia</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">classes</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">rotulo 0.0</td>
+<td>43.4</td>
+<td>6.785606</td>
+<td>41.7</td>
+<td>6.307843</td>
+<td>0.961724</td>
+<td>0.024722</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rotulo 1.0</td>
+<td>41.3</td>
+<td>4.762119</td>
+<td>27.4</td>
+<td>3.921451</td>
+<td>0.665369</td>
+<td>0.075432</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">rotulo 2.0</td>
+<td>44.4</td>
+<td>3.169297</td>
+<td>25.2</td>
+<td>3.765339</td>
+<td>0.567975</td>
+<td>0.077946</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rotulo 3.0</td>
+<td>39.9</td>
+<td>5.586691</td>
+<td>36.9</td>
+<td>4.557046</td>
+<td>0.927369</td>
+<td>0.044956</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="a4d59ccf" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>trat_dfs_acu_por_classe(result_naive_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">total</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acertos</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">acuracia</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">classes</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">rotulo 0.0</td>
+<td>43.9</td>
+<td>4.306326</td>
+<td>0.6</td>
+<td>1.074968</td>
+<td>0.012709</td>
+<td>0.022608</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rotulo 1.0</td>
+<td>41.9</td>
+<td>3.034981</td>
+<td>21.8</td>
+<td>7.997222</td>
+<td>0.521476</td>
+<td>0.180655</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">rotulo 2.0</td>
+<td>44.7</td>
+<td>5.907622</td>
+<td>7.0</td>
+<td>7.257180</td>
+<td>0.160697</td>
+<td>0.173594</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rotulo 3.0</td>
+<td>38.5</td>
+<td>3.100179</td>
+<td>35.4</td>
+<td>4.141927</td>
+<td>0.917697</td>
+<td>0.050757</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
